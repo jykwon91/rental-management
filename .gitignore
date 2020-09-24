@@ -28,3 +28,4 @@ server/dist/*
 web/node_modules
 web/dist/*
 dist/*
+.vscode
