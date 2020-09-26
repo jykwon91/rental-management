@@ -1,0 +1,15 @@
+scalar Date
+scalar DateTime
+
+type Payment {
+  id: ID!
+  amount: Int!
+  description: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+input PostInput {
+  amount: Int!
+  description: String
+}
