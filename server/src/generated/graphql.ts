@@ -101,6 +101,7 @@ export type Mutation = {
   signUp: AuthPayload;
   addNotificationToken?: Maybe<Notification>;
   updateProfile?: Maybe<User>;
+  addPayment?: Maybe<Payment>;
 };
 
 
@@ -139,6 +140,11 @@ export type MutationUpdateProfileArgs = {
   user: UserInput;
 };
 
+
+export type MutationAddPaymentArgs = {
+  payment: PaymentInput;
+};
+
 export type AuthPayload = {
   __typename?: 'AuthPayload';
   token: Scalars['String'];
@@ -173,6 +179,11 @@ export type NotificationInput = {
   token: Scalars['String'];
   device?: Maybe<Scalars['String']>;
   os?: Maybe<Scalars['String']>;
+};
+
+export type PaymentInput = {
+  amount: Scalars['Int'];
+  description?: Maybe<Scalars['String']>;
 };
 
 export type Subscription = {
@@ -277,6 +288,7 @@ export type ResolversTypes = {
   SocialUserInput: SocialUserInput;
   UserInput: UserInput;
   NotificationInput: NotificationInput;
+  PaymentInput: PaymentInput;
   Subscription: ResolverTypeWrapper<{}>;
 };
 
@@ -298,6 +310,7 @@ export type ResolversParentTypes = {
   SocialUserInput: SocialUserInput;
   UserInput: UserInput;
   NotificationInput: NotificationInput;
+  PaymentInput: PaymentInput;
   Subscription: {};
 };
 
@@ -375,6 +388,7 @@ export type MutationResolvers<ContextType = MyContext, ParentType extends Resolv
   signUp?: Resolver<ResolversTypes['AuthPayload'], ParentType, ContextType, RequireFields<MutationSignUpArgs, 'user'>>;
   addNotificationToken?: Resolver<Maybe<ResolversTypes['Notification']>, ParentType, ContextType, RequireFields<MutationAddNotificationTokenArgs, 'notification'>>;
   updateProfile?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationUpdateProfileArgs, 'user'>>;
+  addPayment?: Resolver<Maybe<ResolversTypes['Payment']>, ParentType, ContextType, RequireFields<MutationAddPaymentArgs, 'payment'>>;
 };
 
 export type AuthPayloadResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['AuthPayload'] = ResolversParentTypes['AuthPayload']> = {

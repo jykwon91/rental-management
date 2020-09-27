@@ -1,32 +1,27 @@
-import { request } from 'graphql-request';
-import { testHost } from './testSetup';
+import { request } from "graphql-request";
+import { testHost } from "./testSetup";
 
-describe('Resolver - User', () => {
-  const name = 'dooboo1';
-  const email = `${name}@dooboo.com`;
-  const password = 'password';
+describe("Resolver - User", () => {
+  const amount = 1234;
+  const description = "this is a payment";
 
-  const mutation = /* GraphQL */`
+  const mutation = /* GraphQL */ `
     mutation {
-      signUp(user: {
-        email: "${email}"
-        password: "${password}"
-        name: "${name}"
-      }) {
-        token,
-        user {
-          email
-        }
+      addPayment(payment: {
+        amount: ${amount}
+        description: "${description}"
+      }){
+          amount,
+          description
       }
     }
   `;
 
-  it('should signUp user', async () => {
+  it("should addPayment to user", async () => {
     const response: any = await request(testHost, mutation);
-
-    expect(response).toHaveProperty('signUp');
-    expect(response.signUp).toHaveProperty('token');
-    expect(response.signUp).toHaveProperty('user');
-    expect(response.signUp.user.email).toEqual(email);
+    expect(response).toHaveProperty("addPayment");
+    //expect(response.addPayment).toHaveProperty("token");
+    expect(response.addPayment).toHaveProperty("amount");
+    expect(response.addPayment.description).toEqual(description);
   });
 });

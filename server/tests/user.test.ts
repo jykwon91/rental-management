@@ -1,12 +1,13 @@
-import { request } from 'graphql-request';
-import { testHost } from './testSetup';
+import { request } from "graphql-request";
+import { testHost } from "./testSetup";
+import jest from "jest";
 
-describe('Resolver - User', () => {
-  const name = 'dooboo1';
+describe("Resolver - User", () => {
+  const name = "dooboo1";
   const email = `${name}@dooboo.com`;
-  const password = 'password';
+  const password = "password";
 
-  const mutation = /* GraphQL */`
+  const mutation = /* GraphQL */ `
     mutation {
       signUp(user: {
         email: "${email}"
@@ -21,12 +22,12 @@ describe('Resolver - User', () => {
     }
   `;
 
-  it('should signUp user', async () => {
+  it("should signUp user", async () => {
     const response: any = await request(testHost, mutation);
 
-    expect(response).toHaveProperty('signUp');
-    expect(response.signUp).toHaveProperty('token');
-    expect(response.signUp).toHaveProperty('user');
+    expect(response).toHaveProperty("signUp");
+    expect(response.signUp).toHaveProperty("token");
+    expect(response.signUp).toHaveProperty("user");
     expect(response.signUp.user.email).toEqual(email);
   });
 });

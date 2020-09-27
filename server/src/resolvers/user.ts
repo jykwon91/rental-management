@@ -6,23 +6,24 @@ import {
   Resolvers,
   SocialUserInput,
   User,
-} from '../generated/graphql';
-import { encryptCredential, validateCredential } from '../utils/auth';
+} from "../generated/graphql";
+import { encryptCredential, validateCredential } from "../utils/auth";
 
-import { AuthenticationError } from 'apollo-server-express';
-import { ModelType } from '../models';
-import { Op } from 'sequelize';
-import { Role } from '../types';
-import jwt from 'jsonwebtoken';
-import { withFilter } from 'apollo-server';
+import { AuthenticationError } from "apollo-server-express";
+import { ModelType } from "../models";
+import { Op } from "sequelize";
+import { Role } from "../types";
+import jwt from "jsonwebtoken";
+import { withFilter } from "apollo-server";
 
-const USER_SIGNED_IN = 'USER_SIGNED_IN';
-const USER_UPDATED = 'USER_UPDATED';
+const USER_SIGNED_IN = "USER_SIGNED_IN";
+const USER_UPDATED = "USER_UPDATED";
+const PAYMENT_POSTED = "PAYMENT_POSTED";
 
 const signInWithSocialAccount = async (
   socialUser: SocialUserInput,
   models: ModelType,
-  appSecret: string,
+  appSecret: string
 ): Promise<AuthPayload> => {
   const { User: userModel } = models;
 
@@ -36,7 +37,7 @@ const signInWithSocialAccount = async (
     });
 
     if (emailUser) {
-      throw new Error('Email for current user is already signed in');
+      throw new Error("Email for current user is already signed in");
     }
   }
 
@@ -64,7 +65,7 @@ const signInWithSocialAccount = async (
       userId: user[0].id,
       role: Role.User,
     },
-    appSecret,
+    appSecret
   );
   return { token, user: user[0] };
 };
@@ -73,8 +74,6 @@ const resolver: Resolvers = {
   Query: {
     users: async (_, args, { getUser, models }): Promise<User[]> => {
       const { User: userModel } = models;
-      const user = await getUser();
-      if (!user) throw new AuthenticationError('User is not logged in');
 
       return userModel.findAll();
     },
@@ -85,7 +84,11 @@ const resolver: Resolvers = {
     },
   },
   Mutation: {
-    signInEmail: async (_, args, { models, appSecret, pubsub }): Promise<AuthPayload> => {
+    signInEmail: async (
+      _,
+      args,
+      { models, appSecret, pubsub }
+    ): Promise<AuthPayload> => {
       const { User: userModel } = models;
 
       const user = await userModel.findOne({
@@ -95,30 +98,42 @@ const resolver: Resolvers = {
         raw: true,
       });
 
-      if (!user) throw new AuthenticationError('User does not exsists');
+      if (!user) throw new AuthenticationError("User does not exsists");
 
       const validate = await validateCredential(args.password, user.password);
 
-      if (!validate) throw new AuthenticationError('Password is not correct');
+      if (!validate) throw new AuthenticationError("Password is not correct");
 
       const token: string = jwt.sign(
         {
           userId: user.id,
           role: Role.User,
         },
-        appSecret,
+        appSecret
       );
 
       pubsub.publish(USER_SIGNED_IN, { userSignedIn: user });
       return { token, user };
     },
-    signInGoogle: async (_, { socialUser }, { appSecret, models }): Promise<AuthPayload> =>
+    signInGoogle: async (
+      _,
+      { socialUser },
+      { appSecret, models }
+    ): Promise<AuthPayload> =>
       signInWithSocialAccount(socialUser, models, appSecret),
 
-    signInFacebook: async (_, { socialUser }, { appSecret, models }): Promise<AuthPayload> =>
+    signInFacebook: async (
+      _,
+      { socialUser },
+      { appSecret, models }
+    ): Promise<AuthPayload> =>
       signInWithSocialAccount(socialUser, models, appSecret),
 
-    signInApple: async (_, { socialUser }, { appSecret, models }): Promise<AuthPayload> =>
+    signInApple: async (
+      _,
+      { socialUser },
+      { appSecret, models }
+    ): Promise<AuthPayload> =>
       signInWithSocialAccount(socialUser, models, appSecret),
     signUp: async (_, args, { appSecret, models }): Promise<AuthPayload> => {
       const { User: userModel } = models;
@@ -131,7 +146,7 @@ const resolver: Resolvers = {
       });
 
       if (emailUser) {
-        throw new Error('Email for current user is already signed up.');
+        throw new Error("Email for current user is already signed up.");
       }
       args.user.password = await encryptCredential(args.user.password);
       const user = await models.User.create(args.user, { raw: true });
@@ -140,28 +155,27 @@ const resolver: Resolvers = {
           userId: user.id,
           role: Role.User,
         },
-        appSecret,
+        appSecret
       );
 
       return { token, user };
     },
-    updateProfile: async (_, args, { getUser, models, pubsub }): Promise<User> => {
+    updateProfile: async (
+      _,
+      args,
+      { getUser, models, pubsub }
+    ): Promise<User> => {
       try {
         const auth = await getUser();
         if (!auth) {
-          throw new AuthenticationError(
-            'User is not logged in',
-          );
+          throw new AuthenticationError("User is not logged in");
         }
 
-        models.User.update(
-          args,
-          {
-            where: {
-              id: auth.id,
-            },
+        models.User.update(args, {
+          where: {
+            id: auth.id,
           },
-        );
+        });
 
         const user = await models.User.findOne({
           where: {
@@ -172,6 +186,34 @@ const resolver: Resolvers = {
 
         pubsub.publish(USER_UPDATED, { user });
         return user;
+      } catch (err) {
+        throw new Error(err);
+      }
+    },
+    addPayment: async (
+      _,
+      args,
+      { getUser, models, pubsub }
+    ): Promise<Payment> => {
+      try {
+        const auth = await getUser();
+        if (!auth) {
+          throw new AuthenticationError("User is not logged in");
+        }
+        console.log(args);
+        const payment = await models.Payment.create(args.payment, {
+          raw: true,
+        });
+
+        // const user = await models.User.findOne({
+        //   where: {
+        //     id: auth.id,
+        //   },
+        //   raw: true,
+        // });
+
+        //pubsub.publish(PAYMENT_POSTED, { user });
+        return payment;
       } catch (err) {
         throw new Error(err);
       }
@@ -191,7 +233,7 @@ const resolver: Resolvers = {
         (payload, { userId }) => {
           const { userUpdated: updatedUser } = payload;
           return updatedUser.id === userId;
-        },
+        }
       ),
     },
   },

@@ -1,8 +1,8 @@
-import { Http2Server } from 'http2';
-import { createApp } from '../src/app';
-import express from 'express';
-import sequelize from '../src/db';
-import { startServer } from '../src/server';
+import { Http2Server } from "http2";
+import { createApp } from "../src/app";
+import express from "express";
+import sequelize from "../src/db";
+import { startServer } from "../src/server";
 
 const port = 4000;
 let server: Http2Server;

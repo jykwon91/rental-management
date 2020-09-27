@@ -9,7 +9,7 @@ type Payment {
   updatedAt: DateTime
 }
 
-input PostInput {
+input PaymentInput {
   amount: Int!
   description: String
 }
