@@ -1,0 +1,16 @@
+scalar Date
+scalar DateTime
+
+type ServiceRequest {
+  id: ID!
+  status: String!
+  description: String
+  createdAt: DateTime
+  updatedAt: DateTime
+  completedAt: DateTime
+}
+
+input ServiceRequestInput {
+  status: String!
+  description: String
+}

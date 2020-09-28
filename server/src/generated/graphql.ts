@@ -21,6 +21,10 @@ export type Query = {
   posts: Array<Post>;
   notifications: Array<Notification>;
   payments: Array<Payment>;
+  properties: Array<Property>;
+  serviceRequests: Array<ServiceRequest>;
+  tenants: Array<Tenant>;
+  landlords: Array<Landlord>;
 };
 
 
@@ -90,6 +94,75 @@ export type Payment = {
   description?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type Property = {
+  __typename?: 'Property';
+  id: Scalars['ID'];
+  address: Scalars['String'];
+  state: Scalars['String'];
+  postalCode: Scalars['String'];
+  city: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type ServiceRequest = {
+  __typename?: 'ServiceRequest';
+  id: Scalars['ID'];
+  status: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  completedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type Tenant = {
+  __typename?: 'Tenant';
+  id: Scalars['ID'];
+  email?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  nickname?: Maybe<Scalars['String']>;
+  thumbURL?: Maybe<Scalars['String']>;
+  photoURL?: Maybe<Scalars['String']>;
+  birthday?: Maybe<Scalars['Date']>;
+  gender?: Maybe<Gender>;
+  phone?: Maybe<Scalars['String']>;
+  socialId?: Maybe<Scalars['String']>;
+  authType?: Maybe<AuthType>;
+  verified?: Maybe<Scalars['Boolean']>;
+  notifications?: Maybe<Array<Maybe<Notification>>>;
+  posts?: Maybe<Array<Maybe<Post>>>;
+  payments?: Maybe<Array<Maybe<Payment>>>;
+  landlord?: Maybe<Landlord>;
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  deletedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type Landlord = {
+  __typename?: 'Landlord';
+  id: Scalars['ID'];
+  email?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  nickname?: Maybe<Scalars['String']>;
+  thumbURL?: Maybe<Scalars['String']>;
+  photoURL?: Maybe<Scalars['String']>;
+  birthday?: Maybe<Scalars['Date']>;
+  gender?: Maybe<Gender>;
+  phone?: Maybe<Scalars['String']>;
+  socialId?: Maybe<Scalars['String']>;
+  authType?: Maybe<AuthType>;
+  verified?: Maybe<Scalars['Boolean']>;
+  notifications?: Maybe<Array<Maybe<Notification>>>;
+  posts?: Maybe<Array<Maybe<Post>>>;
+  payments?: Maybe<Array<Maybe<Payment>>>;
+  properties?: Maybe<Array<Maybe<Property>>>;
+  tenants?: Maybe<Array<Maybe<Tenant>>>;
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  deletedAt?: Maybe<Scalars['DateTime']>;
 };
 
 export type Mutation = {
@@ -283,6 +356,10 @@ export type ResolversTypes = {
   Post: ResolverTypeWrapper<Post>;
   Payment: ResolverTypeWrapper<Payment>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
+  Property: ResolverTypeWrapper<Property>;
+  ServiceRequest: ResolverTypeWrapper<ServiceRequest>;
+  Tenant: ResolverTypeWrapper<Tenant>;
+  Landlord: ResolverTypeWrapper<Landlord>;
   Mutation: ResolverTypeWrapper<{}>;
   AuthPayload: ResolverTypeWrapper<AuthPayload>;
   SocialUserInput: SocialUserInput;
@@ -305,6 +382,10 @@ export type ResolversParentTypes = {
   Post: Post;
   Payment: Payment;
   Int: Scalars['Int'];
+  Property: Property;
+  ServiceRequest: ServiceRequest;
+  Tenant: Tenant;
+  Landlord: Landlord;
   Mutation: {};
   AuthPayload: AuthPayload;
   SocialUserInput: SocialUserInput;
@@ -320,6 +401,10 @@ export type QueryResolvers<ContextType = MyContext, ParentType extends Resolvers
   posts?: Resolver<Array<ResolversTypes['Post']>, ParentType, ContextType>;
   notifications?: Resolver<Array<ResolversTypes['Notification']>, ParentType, ContextType>;
   payments?: Resolver<Array<ResolversTypes['Payment']>, ParentType, ContextType>;
+  properties?: Resolver<Array<ResolversTypes['Property']>, ParentType, ContextType>;
+  serviceRequests?: Resolver<Array<ResolversTypes['ServiceRequest']>, ParentType, ContextType>;
+  tenants?: Resolver<Array<ResolversTypes['Tenant']>, ParentType, ContextType>;
+  landlords?: Resolver<Array<ResolversTypes['Landlord']>, ParentType, ContextType>;
 };
 
 export type UserResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
@@ -380,6 +465,75 @@ export type PaymentResolvers<ContextType = MyContext, ParentType extends Resolve
   __isTypeOf?: IsTypeOfResolverFn<ParentType>;
 };
 
+export type PropertyResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['Property'] = ResolversParentTypes['Property']> = {
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  address?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  state?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  postalCode?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  city?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
+};
+
+export type ServiceRequestResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['ServiceRequest'] = ResolversParentTypes['ServiceRequest']> = {
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  status?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  completedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
+};
+
+export type TenantResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['Tenant'] = ResolversParentTypes['Tenant']> = {
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  nickname?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  thumbURL?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  photoURL?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  birthday?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
+  gender?: Resolver<Maybe<ResolversTypes['Gender']>, ParentType, ContextType>;
+  phone?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  socialId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  authType?: Resolver<Maybe<ResolversTypes['AuthType']>, ParentType, ContextType>;
+  verified?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  notifications?: Resolver<Maybe<Array<Maybe<ResolversTypes['Notification']>>>, ParentType, ContextType>;
+  posts?: Resolver<Maybe<Array<Maybe<ResolversTypes['Post']>>>, ParentType, ContextType>;
+  payments?: Resolver<Maybe<Array<Maybe<ResolversTypes['Payment']>>>, ParentType, ContextType>;
+  landlord?: Resolver<Maybe<ResolversTypes['Landlord']>, ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  deletedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
+};
+
+export type LandlordResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['Landlord'] = ResolversParentTypes['Landlord']> = {
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  nickname?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  thumbURL?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  photoURL?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  birthday?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
+  gender?: Resolver<Maybe<ResolversTypes['Gender']>, ParentType, ContextType>;
+  phone?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  socialId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  authType?: Resolver<Maybe<ResolversTypes['AuthType']>, ParentType, ContextType>;
+  verified?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  notifications?: Resolver<Maybe<Array<Maybe<ResolversTypes['Notification']>>>, ParentType, ContextType>;
+  posts?: Resolver<Maybe<Array<Maybe<ResolversTypes['Post']>>>, ParentType, ContextType>;
+  payments?: Resolver<Maybe<Array<Maybe<ResolversTypes['Payment']>>>, ParentType, ContextType>;
+  properties?: Resolver<Maybe<Array<Maybe<ResolversTypes['Property']>>>, ParentType, ContextType>;
+  tenants?: Resolver<Maybe<Array<Maybe<ResolversTypes['Tenant']>>>, ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  deletedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
+};
+
 export type MutationResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   signInEmail?: Resolver<ResolversTypes['AuthPayload'], ParentType, ContextType, RequireFields<MutationSignInEmailArgs, 'email' | 'password'>>;
   signInGoogle?: Resolver<ResolversTypes['AuthPayload'], ParentType, ContextType, RequireFields<MutationSignInGoogleArgs, 'socialUser'>>;
@@ -410,6 +564,10 @@ export type Resolvers<ContextType = MyContext> = {
   Notification?: NotificationResolvers<ContextType>;
   Post?: PostResolvers<ContextType>;
   Payment?: PaymentResolvers<ContextType>;
+  Property?: PropertyResolvers<ContextType>;
+  ServiceRequest?: ServiceRequestResolvers<ContextType>;
+  Tenant?: TenantResolvers<ContextType>;
+  Landlord?: LandlordResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   AuthPayload?: AuthPayloadResolvers<ContextType>;
   Subscription?: SubscriptionResolvers<ContextType>;

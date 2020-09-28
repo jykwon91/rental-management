@@ -2,6 +2,10 @@
 # import * from "notification.graphql"
 # import Post from "post.graphql"
 # import * from "payment.graphql"
+# import Property from "property.graphql"
+# import ServiceRequest from "serviceRequest.graphql"
+# import Landlord from "landlord.graphql"
+# import Tenant from "tenant.graphql"
 
 type Query {
   users: [User!]!
@@ -9,6 +13,10 @@ type Query {
   posts: [Post!]!
   notifications: [Notification!]!
   payments: [Payment!]!
+  properties: [Property!]!
+  serviceRequests: [ServiceRequest!]!
+  tenants: [Tenant!]!
+  landlords: [Landlord!]!
 }
 
 type Mutation {
