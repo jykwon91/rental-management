@@ -23,6 +23,7 @@
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-is": "^16.13.1",
+    "typeorm": "^0.2.28",
     "urql": "^1.10.1"
   },
   "license": "MIT",
