@@ -55,7 +55,8 @@ const EditPost = ({}) => {
           //   router.push('/');
           // }
           updatePost({ id: intId, ...values });
-          router.push('/');
+          //router.push('/');
+          router.back();
         }}
       >
         {({ isSubmitting }) => (
