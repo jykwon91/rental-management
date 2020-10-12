@@ -6,17 +6,22 @@ import { Wrapper } from '../components/Wrapper';
 import { MeDocument, MeQuery, useRegisterMutation } from '../generated/graphql';
 import { toErrorMap } from '../utils/toErrorMap';
 import { useRouter } from 'next/router';
-import { withUrqlClient } from 'next-urql';
-import { createUrqlClient } from '../utils/createUrqlClient';
 import { withApollo } from '../utils/withApollo';
+import { Helmet } from 'react-helmet';
 
 interface registerProps {}
+
+const TITLE = 'Register';
 
 const Register: React.FC<registerProps> = ({}) => {
   const router = useRouter();
   const [register] = useRegisterMutation();
   return (
     <Wrapper variant="small">
+      <Helmet>
+        <title>{TITLE}</title>
+        <meta name="description" content="Helmet application" />
+      </Helmet>
       <Formik
         initialValues={{
           username: '',

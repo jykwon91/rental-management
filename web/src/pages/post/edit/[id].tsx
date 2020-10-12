@@ -1,20 +1,18 @@
 import { Box, Button } from '@chakra-ui/core';
-import { create } from 'domain';
 import { Formik, Form } from 'formik';
-import { withUrqlClient } from 'next-urql';
-import { Router, useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import React from 'react';
+import { Helmet } from 'react-helmet';
 import { InputField } from '../../../components/InputField';
 import { Layout } from '../../../components/Layout';
 import {
   usePostQuery,
   useUpdatePostMutation,
 } from '../../../generated/graphql';
-import { createUrqlClient } from '../../../utils/createUrqlClient';
 import { useGetIntId } from '../../../utils/useGetIntId';
-import { useGetPostFromUrl } from '../../../utils/useGetPostFromUrl';
 import { withApollo } from '../../../utils/withApollo';
-import createPost from '../../create-post';
+
+const TITLE = 'Edit Post';
 
 const EditPost = ({}) => {
   const router = useRouter();
@@ -45,6 +43,10 @@ const EditPost = ({}) => {
 
   return (
     <Layout variant="small">
+      <Helmet>
+        <title>{TITLE}</title>
+        <meta name="description" content="Helmet application" />
+      </Helmet>
       <Formik
         initialValues={{
           title: data.post.title,
@@ -55,7 +57,7 @@ const EditPost = ({}) => {
           // if (!error) {
           //   router.push('/');
           // }
-          updatePost({variables: { id: intId, ...values }});
+          updatePost({ variables: { id: intId, ...values } });
           //router.push('/');
           router.back();
         }}
@@ -86,4 +88,4 @@ const EditPost = ({}) => {
     </Layout>
   );
 };
-export default withApollo({ssr: false})(EditPost);
+export default withApollo({ ssr: false })(EditPost);

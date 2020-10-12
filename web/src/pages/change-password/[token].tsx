@@ -14,6 +14,9 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import NextLink from 'next/link';
 import { withApollo } from '../../utils/withApollo';
+import { Helmet } from 'react-helmet';
+
+const TITLE = 'Change Password';
 
 export const ChangePassword: NextPage = () => {
   const router = useRouter();
@@ -21,6 +24,10 @@ export const ChangePassword: NextPage = () => {
   const [tokenError, setTokenError] = useState('');
   return (
     <Wrapper variant="small">
+      <Helmet>
+        <title>{TITLE}</title>
+        <meta name="description" content="Helmet application" />
+      </Helmet>
       <Formik
         initialValues={{
           newPassword: '',

@@ -8,12 +8,19 @@ import { toErrorMap } from '../utils/toErrorMap';
 import { useRouter } from 'next/router';
 import NextLink from 'next/link';
 import { withApollo } from '../utils/withApollo';
+import { Helmet } from 'react-helmet';
+
+const TITLE = 'Login';
 
 const Login: React.FC<{}> = ({}) => {
   const router = useRouter();
   const [login] = useLoginMutation();
   return (
     <Wrapper variant="small">
+      <Helmet>
+        <title>{TITLE}</title>
+        <meta name="description" content="Helmet application" />
+      </Helmet>
       <Formik
         initialValues={{
           usernameOrEmail: '',

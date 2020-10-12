@@ -6,12 +6,19 @@ import { Wrapper } from '../components/Wrapper';
 import { useForgotPasswordMutation } from '../generated/graphql';
 import { useState } from 'react';
 import { withApollo } from '../utils/withApollo';
+import { Helmet } from 'react-helmet';
+
+const TITLE = 'Forgot Password';
 
 export const ForgotPassword: React.FC<{}> = ({}) => {
   const [complete, setComplete] = useState(false);
   const [forgotPassword] = useForgotPasswordMutation();
   return (
     <Wrapper variant="small">
+      <Helmet>
+        <title>{TITLE}</title>
+        <meta name="description" content="Helmet application" />
+      </Helmet>
       <Formik
         initialValues={{
           email: '',

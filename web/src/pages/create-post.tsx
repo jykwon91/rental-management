@@ -2,14 +2,14 @@ import { Box, Button } from '@chakra-ui/core';
 import { Formik, Form } from 'formik';
 import React from 'react';
 import { InputField } from '../components/InputField';
-import { withUrqlClient } from 'next-urql';
-import { createUrqlClient } from '../utils/createUrqlClient';
-import { useCreatePostMutation, useMeQuery } from '../generated/graphql';
+import { useCreatePostMutation } from '../generated/graphql';
 import { useRouter } from 'next/router';
 import { Layout } from '../components/Layout';
-import { useEffect } from 'react';
 import { useIsAuth } from '../utils/useIsAuth';
 import { withApollo } from '../utils/withApollo';
+import { Helmet } from 'react-helmet';
+
+const TITLE = 'Create Post';
 
 const CreatePost: React.FC<{}> = ({}) => {
   const router = useRouter();
@@ -18,6 +18,10 @@ const CreatePost: React.FC<{}> = ({}) => {
 
   return (
     <Layout variant="small">
+      <Helmet>
+        <title>{TITLE}</title>
+        <meta name="description" content="Helmet application" />
+      </Helmet>
       <Formik
         initialValues={{
           title: '',

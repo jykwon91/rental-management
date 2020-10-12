@@ -1,13 +1,14 @@
 import { Box, Button, Flex, Heading, Link, Stack, Text } from '@chakra-ui/core';
-import { withUrqlClient } from 'next-urql';
 import NextLink from 'next/link';
-import React, { useState } from 'react';
+import React from 'react';
 import { EditDeletePostButtons } from '../components/EditDeletePostButtons';
 import { Layout } from '../components/Layout';
 import { UpdootSection } from '../components/UpdootSection';
-import { PostsQuery, useMeQuery, usePostsQuery } from '../generated/graphql';
-import { createUrqlClient } from '../utils/createUrqlClient';
+import { useMeQuery, usePostsQuery } from '../generated/graphql';
 import { withApollo } from '../utils/withApollo';
+import { Helmet } from 'react-helmet';
+
+const TITLE = 'Rental Management';
 
 const Index = () => {
   const { data: meData } = useMeQuery();
@@ -17,7 +18,7 @@ const Index = () => {
       limit: 15,
       cursor: null as null | string,
     },
-    notifyOnNetworkStatusChange: true
+    notifyOnNetworkStatusChange: true,
   });
 
   if (!loading && !data) {
@@ -31,6 +32,15 @@ const Index = () => {
 
   return (
     <>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>{TITLE}</title>
+        <link
+          rel="icon"
+          sizes="48x48"
+          href="https://img.icons8.com/doodle/48/000000/home--v1.png"
+        />
+      </Helmet>
       <Layout>
         {!data && loading ? (
           <div>loading...</div>
@@ -75,7 +85,8 @@ const Index = () => {
               fetchMore({
                 variables: {
                   limit: variables?.limit,
-                  cursor: data.posts.posts[data.posts.posts.length - 1].createdAt,
+                  cursor:
+                    data.posts.posts[data.posts.posts.length - 1].createdAt,
                 },
                 // updateQuery: (previousValue, {fetchMoreResult}): PostsQuery => {
                 //   if (!fetchMoreResult) {
@@ -94,7 +105,7 @@ const Index = () => {
                 //     }
                 //   }
                 // }
-              })
+              });
             }}
             isLoading={loading}
             m="auto"
@@ -108,4 +119,4 @@ const Index = () => {
   );
 };
 
-export default withApollo({ssr: true})(Index);
+export default withApollo({ ssr: true })(Index);
