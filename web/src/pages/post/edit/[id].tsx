@@ -13,20 +13,21 @@ import {
 import { createUrqlClient } from '../../../utils/createUrqlClient';
 import { useGetIntId } from '../../../utils/useGetIntId';
 import { useGetPostFromUrl } from '../../../utils/useGetPostFromUrl';
+import { withApollo } from '../../../utils/withApollo';
 import createPost from '../../create-post';
 
 const EditPost = ({}) => {
   const router = useRouter();
   const intId = useGetIntId();
-  const [{ data, fetching }] = usePostQuery({
-    pause: intId === -1,
+  const { data, loading } = usePostQuery({
+    skip: intId === -1,
     variables: {
       id: intId,
     },
   });
-  const [, updatePost] = useUpdatePostMutation();
+  const [updatePost] = useUpdatePostMutation();
 
-  if (fetching) {
+  if (loading) {
     return (
       <Layout>
         <div>loading...</div>
@@ -54,7 +55,7 @@ const EditPost = ({}) => {
           // if (!error) {
           //   router.push('/');
           // }
-          updatePost({ id: intId, ...values });
+          updatePost({variables: { id: intId, ...values }});
           //router.push('/');
           router.back();
         }}
@@ -85,4 +86,4 @@ const EditPost = ({}) => {
     </Layout>
   );
 };
-export default withUrqlClient(createUrqlClient)(EditPost);
+export default withApollo({ssr: false})(EditPost);

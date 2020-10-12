@@ -9,11 +9,12 @@ import { useRouter } from 'next/router';
 import { Layout } from '../components/Layout';
 import { useEffect } from 'react';
 import { useIsAuth } from '../utils/useIsAuth';
+import { withApollo } from '../utils/withApollo';
 
 const CreatePost: React.FC<{}> = ({}) => {
   const router = useRouter();
   useIsAuth();
-  const [, createPost] = useCreatePostMutation();
+  const [createPost] = useCreatePostMutation();
 
   return (
     <Layout variant="small">
@@ -23,8 +24,13 @@ const CreatePost: React.FC<{}> = ({}) => {
           text: '',
         }}
         onSubmit={async (values) => {
-          const { error } = await createPost({ input: values });
-          if (!error) {
+          const { errors } = await createPost({
+            variables: { input: values },
+            update: (cache) => {
+              cache.evict({ fieldName: 'posts' });
+            },
+          });
+          if (!errors) {
             router.push('/');
           }
         }}
@@ -56,4 +62,4 @@ const CreatePost: React.FC<{}> = ({}) => {
   );
 };
 
-export default withUrqlClient(createUrqlClient)(CreatePost);
+export default withApollo({ ssr: false })(CreatePost);

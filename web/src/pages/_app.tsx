@@ -1,5 +1,8 @@
 import { ColorModeProvider, CSSReset, ThemeProvider } from '@chakra-ui/core';
+import { PaginatedPosts, PostsQuery } from '../generated/graphql';
 import theme from '../theme';
+
+
 
 function MyApp({ Component, pageProps }: any) {
   return (
