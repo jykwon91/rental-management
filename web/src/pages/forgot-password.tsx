@@ -1,6 +1,4 @@
 import React from 'react';
-import { withUrqlClient } from 'next-urql';
-import { createUrqlClient } from '../utils/createUrqlClient';
 import { Box, Button } from '@chakra-ui/core';
 import { Formik, Form } from 'formik';
 import { InputField } from '../components/InputField';
@@ -19,7 +17,7 @@ export const ForgotPassword: React.FC<{}> = ({}) => {
           email: '',
         }}
         onSubmit={async (values) => {
-          await forgotPassword({variables: values});
+          await forgotPassword({ variables: values });
           setComplete(true);
         }}
       >
@@ -53,4 +51,4 @@ export const ForgotPassword: React.FC<{}> = ({}) => {
   );
 };
 
-export default withApollo({ssr: false})(ForgotPassword);
+export default withApollo({ ssr: false })(ForgotPassword);

@@ -3,16 +3,9 @@ import { Formik, Form } from 'formik';
 import React from 'react';
 import { InputField } from '../components/InputField';
 import { Wrapper } from '../components/Wrapper';
-import {
-  MeDocument,
-  MeQuery,
-  useLoginMutation,
-  useRegisterMutation,
-} from '../generated/graphql';
+import { MeDocument, MeQuery, useLoginMutation } from '../generated/graphql';
 import { toErrorMap } from '../utils/toErrorMap';
 import { useRouter } from 'next/router';
-import { withUrqlClient } from 'next-urql';
-import { createUrqlClient } from '../utils/createUrqlClient';
 import NextLink from 'next/link';
 import { withApollo } from '../utils/withApollo';
 

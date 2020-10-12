@@ -12,8 +12,6 @@ import {
 } from '../../generated/graphql';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { withUrqlClient } from 'next-urql';
-import { createUrqlClient } from '../../utils/createUrqlClient';
 import NextLink from 'next/link';
 import { withApollo } from '../../utils/withApollo';
 
