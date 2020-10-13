@@ -30,6 +30,9 @@ const main = async () => {
     entities: [Post, User, Updoot],
   });
 
+  if (conn) {
+    console.log("hello");
+  }
   //await conn.runMigrations();
 
   //await Post.delete({});
