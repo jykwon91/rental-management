@@ -1,5 +1,9 @@
 {
-  "dependencies": {
-    "expo-cli": "^3.27.14"
-  }
+  "private": true,
+  "workspaces": [
+    "web/src/graphql",
+    "web/src/utils",
+    "web/src/generated",
+    "mobile"
+  ]
 }
