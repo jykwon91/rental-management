@@ -2,7 +2,7 @@
   "private": true,
   "workspaces": [
     "packages/controllers",
-    "packages/mobile"
+    "packages/mobile_v1"
   ],
   "dependencies": {
     "expo-cli": "^3.27.14"
